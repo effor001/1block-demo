@@ -693,7 +693,7 @@ gltfLoader.load(
 		model.castShadow = true
 		model.receiveShadow = true
 		model.scale.set(5, 5, 5)
-		model.position.set(-20, -60, 0)
+		model.position.set(-20, -10, 0)
 	
 
 		// //mobileの場合モデルを少し小さく表示

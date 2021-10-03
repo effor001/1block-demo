@@ -9,9 +9,21 @@
 </head>
 
 <body>
-    <div class="home">OVERVIEW</div>
-    <canvas class="webgl">
-    </canvas>
+    <div class="wrapper">
+        <div class="menu">
+            <h3>SHOPS</h3>
+            <div class="bar"></div>
+            <ul>
+                <li class="menuElem"><div class="ind"></div>ATMOS</li>
+                <li class="grayout">NYLON</li>
+                <li class="grayout">AMERI<br>VINTAGE</li>
+            </ul>
+            <div class="menuBtns" id="home"></div>
+            <div class="menuBtns" id="help"></div>
+        </div>
+        <canvas class="webgl">
+        </canvas>
+    </div>
     <!-- <div class="point point-0" id="button1">
         <div class="label openModal" data-modal="modal-1">1</div>
         <!-- The Modal -->
@@ -119,4 +131,12 @@
     //         }
     //     }, false)
     // }
+    const menuElem = document.querySelector('.menuElem')
+    const menuInd=document.querySelector('.ind')
+    menuElem.addEventListener('mouseenter',()=>{
+        menuInd.style.display='block'
+    })
+    menuElem.addEventListener('mouseleave',()=>{
+        menuInd.style.display='none'
+    })
 </script>

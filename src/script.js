@@ -53,12 +53,17 @@ import {
 } from "gsap";
 
 import Stats from 'stats.js'
+import homeBtn0 from '../assets/image/home-btn.png'
+import helpBtn0 from '../assets/image/help-btn.png'
 
-
-// //img1
-// let modal1 = document.createElement('img')
-// modal1.src = modalBg1
-// document.getElementById('modalImg1').appendChild(modal1)
+// home btn
+let homeBtn = document.createElement('img')
+homeBtn.src = homeBtn0
+document.getElementById('home').appendChild(homeBtn)
+// home btn
+let helpBtn = document.createElement('img')
+helpBtn.src = helpBtn0
+document.getElementById('help').appendChild(helpBtn)
 // // DebugUI
 
 const stats = new Stats()
@@ -107,8 +112,8 @@ const cubeTextureLoader = new THREE.CubeTextureLoader()
 //fog
 
 
-const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 10, 20000);
-camera.position.set(80, 160, 400)
+const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 10, 20000);
+camera.position.set(0, 10, 30)
 camera.lookAt(new THREE.Vector3(0, 0, 0))
 scene.add(camera)
 //
@@ -226,13 +231,13 @@ gui.add( saoPass.params, 'saoBlurDepthCutoff', 0.0, 0.1 );
 // effectComposer.addPass(filmPass);
 
 
-const rgbShiftPass = new ShaderPass(RGBShiftShader)
-rgbShiftPass.enabled = false
-effectComposer.addPass(rgbShiftPass)
+// const rgbShiftPass = new ShaderPass(RGBShiftShader)
+// rgbShiftPass.enabled = false
+// effectComposer.addPass(rgbShiftPass)
 
 const unrealBloomPass = new UnrealBloomPass()
 
-unrealBloomPass.strength = .039
+unrealBloomPass.strength = .15
 unrealBloomPass.radius = 2
 unrealBloomPass.threshold = .334
 effectComposer.addPass(unrealBloomPass)
@@ -244,49 +249,49 @@ gui.add(unrealBloomPass, 'strength').min(0).max(2).step(.001)
 gui.add(unrealBloomPass, 'radius').min(0).max(2).step(.001)
 gui.add(unrealBloomPass, 'threshold').min(0).max(1).step(.001)
 
-//Tint pass
-const TintShader = {
-	precision: 'lowp',
-	uniforms: {
-		tDiffuse: {
-			value: null
-		},
-		uTint: {
-			value: null
-		}
-	},
-	vertexShader: `
-	varying vec2 vUv;
+// //Tint pass
+// const TintShader = {
+// 	precision: 'lowp',
+// 	uniforms: {
+// 		tDiffuse: {
+// 			value: null
+// 		},
+// 		uTint: {
+// 			value: null
+// 		}
+// 	},
+// 	vertexShader: `
+// 	varying vec2 vUv;
 
-	void main()
-	{
-		gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-		vUv =uv;
-	}
-	`,
-	fragmentShader: `
-	uniform sampler2D tDiffuse;
-	uniform vec3 uTint;
+// 	void main()
+// 	{
+// 		gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+// 		vUv =uv;
+// 	}
+// 	`,
+// 	fragmentShader: `
+// 	uniform sampler2D tDiffuse;
+// 	uniform vec3 uTint;
 
-	varying vec2 vUv;
+// 	varying vec2 vUv;
 
-	void main()
-	{
-		vec4 color = texture2D(tDiffuse,vUv);
-		color.rgb += uTint;
-		gl_FragColor = color;
-	}
-	`
-}
+// 	void main()
+// 	{
+// 		vec4 color = texture2D(tDiffuse,vUv);
+// 		color.rgb += uTint;
+// 		gl_FragColor = color;
+// 	}
+// 	`
+// }
 
-const tintPass = new ShaderPass(TintShader)
-tintPass.material.uniforms.uTint.value = new THREE.Vector3(0.101, -0.029, -0.007)
-effectComposer.addPass(tintPass)
+// const tintPass = new ShaderPass(TintShader)
+// tintPass.material.uniforms.uTint.value = new THREE.Vector3(0.101, -0.029, -0.007)
+// effectComposer.addPass(tintPass)
 
 
-gui.add(tintPass.material.uniforms.uTint.value, 'x').min(-1).max(1).step(0.001).name('red')
-gui.add(tintPass.material.uniforms.uTint.value, 'y').min(-1).max(1).step(0.001).name('green')
-gui.add(tintPass.material.uniforms.uTint.value, 'z').min(-1).max(1).step(0.001).name('blue')
+// gui.add(tintPass.material.uniforms.uTint.value, 'x').min(-1).max(1).step(0.001).name('red')
+// gui.add(tintPass.material.uniforms.uTint.value, 'y').min(-1).max(1).step(0.001).name('green')
+// gui.add(tintPass.material.uniforms.uTint.value, 'z').min(-1).max(1).step(0.001).name('blue')
 
 //antialias
 if (renderer.getPixelRatio() === 1 && !renderer.capabilities.isWebGL2) {
@@ -687,25 +692,32 @@ gltfLoader.setDRACOLoader(dracoLoader)
 
 
 gltfLoader.load(
-	'/models/1block_blockout.glb',
+	'/models/World_ForGLTF-2.glb',
 	(gltf) => {
 		const model = gltf.scene
 		model.castShadow = true
 		model.receiveShadow = true
-		model.scale.set(5, 5, 5)
-		model.position.set(-20, -10, 0)
+		model.scale.set(7, 7, 7)
+		model.position.set(-5, -5, -30)
 	
-
+	  
+	   
 		// //mobileの場合モデルを少し小さく表示
 		// if (isMobile == true) {
 		// 	model.scale.set(6, 6, 6)
 		// }
+		// Get existing `uv` data array
 		model.traverse((child) => {
 			if (child.isMesh) {
 				objects.push(child)
 				child.castShadow = true
 				child.receiveShadow = true
 				child.reflectivity = 1.0
+
+const uv1Array = child.geometry.getAttribute("uv").array;
+console.log(child.uv1Array)
+// Use this array to create new attribute named `uv2`
+child.geometry.setAttribute( 'uv2', new THREE.BufferAttribute( uv1Array, 2 ) );
 				// console.log(child)
 			}
 			// stage = gltf.scene.getObjectByName( "Stage9", true );
@@ -771,9 +783,9 @@ var rotateModel = function () {
 
 // filllight
 // 夜
-const Light1 = new THREE.DirectionalLight(0xf9a989, 4.295);
+const Light1 = new THREE.DirectionalLight(0xFFDEC3, 5.6);
 // const Light1 = new THREE.DirectionalLight(0xFFB717, 10);
-Light1.position.set(40, 10, 100)
+Light1.position.set(0, 50, 80)
 Light1.shadow.mapSize.set(1024, 1024)
 Light1.shadow.normalBias = 0.05
 Light1.castShadow = true
@@ -786,15 +798,14 @@ gui.add(Light1, 'intensity').min(0).max(20).step(0.001).name('fillLightIntensity
 
 // rimlight
 // 夜
-const Light2 = new THREE.DirectionalLight(0xa85f82, 4.295)
+const Light2 = new THREE.DirectionalLight(0xDAF9FF, 0.6)
 // const Light2 = new THREE.DirectionalLight(0xFDF7A4, 20);
-Light2.position.set(-80, 50, -200)
+Light2.position.set(-60, 40, -180)
 Light2.shadow.mapSize.set(1024, 1024)
 Light2.shadow.normalBias = 0.05
 Light2.castShadow = false
 scene.add(Light2)
-// const helper3 = new THREE.DirectionalLightHelper(Light2, 5);
-// scene.add(helper3);
+// const helper3 = new THREE.DirectionalLightHelper(Light2, 5); scene.add(helper3);
 
 gui.add(Light2, 'intensity').min(0).max(20).step(0.001).name('rimlightIntensity')
 

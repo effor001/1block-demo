@@ -18,12 +18,7 @@ import {
 import {
 	RenderPass
 } from 'three/examples/jsm/postprocessing/RenderPass.js'
-import {
-	BokehPass
-} from 'three/examples/jsm/postprocessing/BokehPass.js'
-import {
-	FilmPass
-} from 'three/examples/jsm/postprocessing/FilmPass.js'
+
 import {
 	ShaderPass
 } from 'three/examples/jsm/postprocessing/ShaderPass.js'
@@ -781,33 +776,33 @@ var rotateModel = function () {
 // scene.add(helper);
 // gui.add(mainLight, 'intensity').min(0).max(20).step(0.001).name('mainlightIntensity')
 
-// // filllight
-// // 夜
-// const Light1 = new THREE.DirectionalLight(0xFFDEC3, 5.6);
-// // const Light1 = new THREE.DirectionalLight(0xFFB717, 10);
-// Light1.position.set(0, 50, 80)
-// Light1.shadow.mapSize.set(1024, 1024)
-// Light1.shadow.normalBias = 0.05
-// Light1.castShadow = true
-// scene.add(Light1)
-// // const helper1 = new THREE.DirectionalLightHelper(Light1, 5);
-// // scene.add(helper1);
+// filllight
+// 夜
+const Light1 = new THREE.DirectionalLight(0xFFDEC3, 5.6);
+// const Light1 = new THREE.DirectionalLight(0xFFB717, 10);
+Light1.position.set(0, 50, 80)
+Light1.shadow.mapSize.set(1024, 1024)
+Light1.shadow.normalBias = 0.05
+Light1.castShadow = true
+scene.add(Light1)
+// const helper1 = new THREE.DirectionalLightHelper(Light1, 5);
+// scene.add(helper1);
 
 
-// gui.add(Light1, 'intensity').min(0).max(20).step(0.001).name('fillLightIntensity')
+gui.add(Light1, 'intensity').min(0).max(20).step(0.001).name('fillLightIntensity')
 
-// // rimlight
-// // 夜
-// const Light2 = new THREE.DirectionalLight(0xDAF9FF, 0.6)
-// // const Light2 = new THREE.DirectionalLight(0xFDF7A4, 20);
-// Light2.position.set(-60, 40, -180)
-// Light2.shadow.mapSize.set(1024, 1024)
-// Light2.shadow.normalBias = 0.05
-// Light2.castShadow = false
-// scene.add(Light2)
-// // const helper3 = new THREE.DirectionalLightHelper(Light2, 5); scene.add(helper3);
+// rimlight
+// 夜
+const Light2 = new THREE.DirectionalLight(0xDAF9FF, 0.6)
+// const Light2 = new THREE.DirectionalLight(0xFDF7A4, 20);
+Light2.position.set(-60, 40, -180)
+Light2.shadow.mapSize.set(1024, 1024)
+Light2.shadow.normalBias = 0.05
+Light2.castShadow = false
+scene.add(Light2)
+// const helper3 = new THREE.DirectionalLightHelper(Light2, 5); scene.add(helper3);
 
-// gui.add(Light2, 'intensity').min(0).max(20).step(0.001).name('rimlightIntensity')
+gui.add(Light2, 'intensity').min(0).max(20).step(0.001).name('rimlightIntensity')
 
 const controls = new OrbitControls(camera, canvas)
 controls.maxPolarAngle = Math.PI * 0.395
